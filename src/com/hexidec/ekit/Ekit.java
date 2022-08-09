@@ -38,6 +38,7 @@ import javax.swing.JToolBar;
 
 import com.hexidec.ekit.EkitCore;
 import com.hexidec.ekit.EkitCoreSpell;
+import pl.koder95.kedit.KEdit;
 
 /** Ekit
   * App for editing and saving HTML in a Java text component
@@ -50,11 +51,10 @@ import com.hexidec.ekit.EkitCoreSpell;
   * Swing Library
   */
 
-public class Ekit extends JFrame implements WindowListener
-{
-	private EkitCore ekitCore;
+public class Ekit extends JFrame implements WindowListener {
+	private KEdit kEdit;
 
-	private File currentFile = (File)null;
+	private File currentFile = null;
 
 	/** Master Constructor
 	  * @param sDocument         [String]  A text or HTML document to load in the editor upon startup.
@@ -75,67 +75,14 @@ public class Ekit extends JFrame implements WindowListener
 	  */
 	public Ekit(String sDocument, String sStyleSheet, String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean debugMode, boolean useSpellChecker, boolean multiBar, boolean enterBreak)
 	{
-		if(useSpellChecker)
-		{
-			ekitCore = new EkitCoreSpell(false, sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, true, multiBar, (multiBar ? EkitCore.TOOLBAR_DEFAULT_MULTI : EkitCore.TOOLBAR_DEFAULT_SINGLE), enterBreak);
-		}
-		else
-		{
-			ekitCore = new EkitCore(false, sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, false, multiBar, (multiBar ? EkitCore.TOOLBAR_DEFAULT_MULTI : EkitCore.TOOLBAR_DEFAULT_SINGLE), enterBreak);
-		}
-
-		ekitCore.setFrame(this);
-
-		/* Add the components to the app */
-		if(includeToolBar)
-		{
-			if(multiBar)
-			{
-				this.getContentPane().setLayout(new GridBagLayout());
-				GridBagConstraints gbc = new GridBagConstraints();
-				gbc.fill       = GridBagConstraints.HORIZONTAL;
-				gbc.anchor     = GridBagConstraints.NORTH;
-				gbc.gridheight = 1;
-				gbc.gridwidth  = 1;
-				gbc.weightx    = 1.0;
-				gbc.weighty    = 0.0;
-				gbc.gridx      = 1;
-
-				gbc.gridy      = 1;
-				this.getContentPane().add(ekitCore.getToolBarMain(includeToolBar), gbc);
-
-				gbc.gridy      = 2;
-				this.getContentPane().add(ekitCore.getToolBarFormat(includeToolBar), gbc);
-
-				gbc.gridy      = 3;
-				this.getContentPane().add(ekitCore.getToolBarStyles(includeToolBar), gbc);
-
-				gbc.anchor     = GridBagConstraints.SOUTH;
-				gbc.fill       = GridBagConstraints.BOTH;
-				gbc.weighty    = 1.0;
-				gbc.gridy      = 4;
-				this.getContentPane().add(ekitCore, gbc);
-			}
-			else
-			{
-				this.getContentPane().setLayout(new BorderLayout());
-				this.getContentPane().add(ekitCore, BorderLayout.CENTER);
-				this.getContentPane().add(ekitCore.getToolBar(includeToolBar), BorderLayout.NORTH);
-			}
-		}
-		else
-		{
-			this.getContentPane().setLayout(new BorderLayout());
-			this.getContentPane().add(ekitCore, BorderLayout.CENTER);
-		}
-
-		this.setJMenuBar(ekitCore.getMenuBar());
+		kEdit = new KEdit(sDocument, sStyleSheet, sRawDocument, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, useSpellChecker, multiBar, enterBreak);
+		kEdit.setOwner(this);
+		kEdit.install(this);
 
 		this.addWindowListener(this);
 
 		this.updateTitle();
 		this.pack();
-		this.setVisible(true);
 	}
 
 	public Ekit()
@@ -160,7 +107,7 @@ public class Ekit extends JFrame implements WindowListener
 	  */
 	private void updateTitle()
 	{
-		this.setTitle(ekitCore.getAppName() + (currentFile == null ? "" : " - " + currentFile.getName()));
+		this.setTitle(kEdit.getAppName() + (currentFile == null ? "" : " - " + currentFile.getName()));
 	}
 
 	/** Usage method
@@ -258,6 +205,7 @@ public class Ekit extends JFrame implements WindowListener
 			else if(args[i].equals("-D"))     { debugOn = false; }
 		}
 		Ekit ekit = new Ekit(sDocument, sStyleSheet, sRawDocument, urlStyleSheet, includeToolBar, includeViewSource, includeMenuIcons, modeExclusive, sLang, sCtry, base64, debugOn, spellCheck, multibar, enterBreak);
+		ekit.setVisible(true);
 	}
 
 }
