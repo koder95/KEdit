@@ -64,7 +64,7 @@ public class EkitCoreSpell extends EkitCore implements SpellCheckListener
 	  * @param sCountry          [String]  The country portion of the Internationalization Locale to run Ekit in.
 	  * @param base64            [boolean] Specifies whether the raw document is Base64 encoded or not.
 	  * @param debugMode         [boolean] Specifies whether to show the Debug menu or not.
-	  * @param hasSpellChecker   [boolean] Specifies whether or not this uses the SpellChecker module
+	  * @param useSpellChecker   [boolean] Specifies whether or not this uses the SpellChecker module
 	  * @param multiBar          [boolean] Specifies whether to use multiple toolbars or one big toolbar.
 	  * @param enterBreak        [boolean] Specifies whether the ENTER key should insert breaks instead of paragraph tags.
 	  */
