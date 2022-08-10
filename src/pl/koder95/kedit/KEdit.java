@@ -9,7 +9,7 @@ import java.net.URL;
 
 public class KEdit extends JPanel {
 
-    private EkitCore ekitCore;
+    private final EkitCore ekitCore;
 
     public KEdit(String sDocument, String sStyleSheet, String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean debugMode, boolean useSpellChecker, boolean multiBar, boolean enterBreak) {
         if (useSpellChecker) {
@@ -57,11 +57,11 @@ public class KEdit extends JPanel {
     }
 
     public void setOwner(Frame owner) {
-        ekitCore.setFrame(owner);
+        ekitCore.setOwner(owner);
     }
 
     public Frame getOwner() {
-        return ekitCore.getFrame();
+        return ekitCore.getOwner();
     }
 
     public void install(JFrame frame) {

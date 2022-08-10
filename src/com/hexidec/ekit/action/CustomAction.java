@@ -73,7 +73,7 @@ public class CustomAction extends StyledEditorKit.StyledTextAction
 			}
 			if(selText == null || textLength < 1)
 			{
-				SimpleInfoDialog sidWarn = new SimpleInfoDialog(parentEkit.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorNoTextSelected"), SimpleInfoDialog.ERROR);
+				SimpleInfoDialog sidWarn = new SimpleInfoDialog(parentEkit.getOwner(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorNoTextSelected"), SimpleInfoDialog.ERROR);
 			}
 			else
 			{
@@ -139,7 +139,7 @@ public class CustomAction extends StyledEditorKit.StyledTextAction
 				{
 					if(htmlAttribs.containsKey("color"))
 					{
-						Color color = new JColorChooser().showDialog(parentEkit.getFrame(), Translatrix.getTranslationString("CustomColorDialog"), Color.black);
+						Color color = new JColorChooser().showDialog(parentEkit.getOwner(), Translatrix.getTranslationString("CustomColorDialog"), Color.black);
 					    if(color != null)
 						{
 							StyledEditorKit.ForegroundAction customColorAction = new StyledEditorKit.ForegroundAction("CustomColor", color);

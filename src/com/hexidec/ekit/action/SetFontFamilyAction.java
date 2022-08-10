@@ -54,7 +54,7 @@ public class SetFontFamilyAction extends StyledEditorKit.FontFamilyAction
 		}
 		else
 		{
-			FontSelectorDialog fsdInput = new FontSelectorDialog(parentEkit.getFrame(), Translatrix.getTranslationString("FontDialogTitle"), true, "face", parentEkit.getTextPane().getSelectedText());
+			FontSelectorDialog fsdInput = new FontSelectorDialog(parentEkit.getOwner(), Translatrix.getTranslationString("FontDialogTitle"), true, "face", parentEkit.getTextPane().getSelectedText());
 			String newFace = new String(fsdInput.getFontName());
 			fsdInput.dispose();
 			if(newFace != null)

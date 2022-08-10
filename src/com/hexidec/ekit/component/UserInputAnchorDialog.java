@@ -23,16 +23,12 @@ package com.hexidec.ekit.component;
 
 import com.hexidec.ekit.EkitCore;
 import java.awt.Container;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.border.*;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -46,7 +42,7 @@ public class UserInputAnchorDialog extends JDialog implements ActionListener
 
 	public UserInputAnchorDialog(EkitCore peKit, String title, boolean bModal, String defaultAnchor)
 	{		
-		super(peKit.getFrame(), title, bModal);
+		super(peKit.getOwner(), title, bModal);
 //		parentEkit = peKit;
 		jtxfInput.setText(defaultAnchor);
 		init();

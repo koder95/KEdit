@@ -120,7 +120,7 @@ import com.hexidec.ekit.thirdparty.print.DocumentRenderer;
   * Swing Library
   */
 
-public class EkitCore extends JPanel implements ActionListener, KeyListener, FocusListener, DocumentListener
+public class EkitCore extends pl.koder95.kedit.ContentPanel implements ActionListener, KeyListener, FocusListener, DocumentListener
 {
 	/* Components */
 	private JSplitPane jspltDisplay;
@@ -1264,7 +1264,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 			String command = ae.getActionCommand();
 			if(command.equals(CMD_DOC_NEW) || command.equals(CMD_DOC_NEW_STYLED))
 			{
-				SimpleInfoDialog sidAsk = new SimpleInfoDialog(this.getFrame(), "", true, Translatrix.getTranslationString("AskNewDocument"), SimpleInfoDialog.QUESTION);
+				SimpleInfoDialog sidAsk = new SimpleInfoDialog(this.getOwner(), "", true, Translatrix.getTranslationString("AskNewDocument"), SimpleInfoDialog.QUESTION);
 				String decision = sidAsk.getDecisionValue();
 				if(decision.equals(Translatrix.getTranslationString("DialogAccept")))
 				{
@@ -1610,7 +1610,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 			}
 			else if(command.equals(CMD_HELP_ABOUT))
 			{
-				new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("About"), true, Translatrix.getTranslationString("AboutMessage"), SimpleInfoDialog.INFO);
+				new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("About"), true, Translatrix.getTranslationString("AboutMessage"), SimpleInfoDialog.INFO);
 			}
 			else if(command.equals(CMD_ENTER_PARAGRAPH))
 			{
@@ -1628,27 +1628,27 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 		catch(IOException ioe)
 		{
 			logException("IOException in actionPerformed method", ioe);
-			new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorIOException"), SimpleInfoDialog.ERROR);
+			new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorIOException"), SimpleInfoDialog.ERROR);
 		}
 		catch(BadLocationException ble)
 		{
 			logException("BadLocationException in actionPerformed method", ble);
-			new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorBadLocationException"), SimpleInfoDialog.ERROR);
+			new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorBadLocationException"), SimpleInfoDialog.ERROR);
 		}
 		catch(NumberFormatException nfe)
 		{
 			logException("NumberFormatException in actionPerformed method", nfe);
-			new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorNumberFormatException"), SimpleInfoDialog.ERROR);
+			new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorNumberFormatException"), SimpleInfoDialog.ERROR);
 		}
 		catch(ClassNotFoundException cnfe)
 		{
 			logException("ClassNotFound Exception in actionPerformed method", cnfe);
-			new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorClassNotFoundException "), SimpleInfoDialog.ERROR);
+			new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorClassNotFoundException "), SimpleInfoDialog.ERROR);
 		}
 		catch(RuntimeException re)
 		{
 			logException("RuntimeException in actionPerformed method", re);
-			new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorRuntimeException"), SimpleInfoDialog.ERROR);
+			new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorRuntimeException"), SimpleInfoDialog.ERROR);
 		}
 	}
 
@@ -1724,12 +1724,12 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 			catch(BadLocationException ble)
 			{
 				logException("BadLocationException in keyTyped method", ble);
-				new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorBadLocationException"), SimpleInfoDialog.ERROR);
+				new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorBadLocationException"), SimpleInfoDialog.ERROR);
 			}
 			catch(IOException ioe)
 			{
 				logException("IOException in keyTyped method", ioe);
-				new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorIOException"), SimpleInfoDialog.ERROR);
+				new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorIOException"), SimpleInfoDialog.ERROR);
 			}
 		}
 		else if(ke.getKeyChar() == KeyEvent.VK_ENTER)
@@ -1811,12 +1811,12 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 			catch(BadLocationException ble)
 			{
 				logException("BadLocationException in keyTyped method", ble);
-				new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorBadLocationException"), SimpleInfoDialog.ERROR);
+				new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorBadLocationException"), SimpleInfoDialog.ERROR);
 			}
 			catch(IOException ioe)
 			{
 				logException("IOException in keyTyped method", ioe);
-				new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorIOException"), SimpleInfoDialog.ERROR);
+				new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorIOException"), SimpleInfoDialog.ERROR);
 			}
 		}
 	}
@@ -1938,7 +1938,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 		int cols = 0;
 		if(fieldNames != null && fieldNames.length > 0)
 		{
-			PropertiesDialog propertiesDialog = new PropertiesDialog(this.getFrame(), fieldNames, fieldTypes, fieldValues, Translatrix.getTranslationString("TableDialogTitle"), true);
+			PropertiesDialog propertiesDialog = new PropertiesDialog(this.getOwner(), fieldNames, fieldTypes, fieldValues, Translatrix.getTranslationString("TableDialogTitle"), true);
 			propertiesDialog.setVisible(true);
 			String decision = propertiesDialog.getDecisionValue();
 			if(decision.equals(Translatrix.getTranslationString("DialogCancel")))
@@ -2020,7 +2020,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 					}
 				}
 			}
-			PropertiesDialog propertiesDialog = new PropertiesDialog(this.getFrame(), fieldNames, fieldTypes, fieldValues, Translatrix.getTranslationString("TableEdit"), true);
+			PropertiesDialog propertiesDialog = new PropertiesDialog(this.getOwner(), fieldNames, fieldTypes, fieldValues, Translatrix.getTranslationString("TableEdit"), true);
 			propertiesDialog.setVisible(true);
 			if(!propertiesDialog.getDecisionValue().equals(Translatrix.getTranslationString("DialogCancel")))
 			{
@@ -2042,7 +2042,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 		}
 		else
 		{
-			new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Table"), true, Translatrix.getTranslationString("CursorNotInTable"));
+			new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("Table"), true, Translatrix.getTranslationString("CursorNotInTable"));
 		}
 	}
 
@@ -2078,7 +2078,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 					}
 				}
 			}
-			PropertiesDialog propertiesDialog = new PropertiesDialog(this.getFrame(), fieldNames, fieldTypes, fieldValues, Translatrix.getTranslationString("TableCellEdit"), true);
+			PropertiesDialog propertiesDialog = new PropertiesDialog(this.getOwner(), fieldNames, fieldTypes, fieldValues, Translatrix.getTranslationString("TableCellEdit"), true);
 			propertiesDialog.setVisible(true);
 			if(!propertiesDialog.getDecisionValue().equals(Translatrix.getTranslationString("DialogCancel")))
 			{
@@ -2100,7 +2100,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 		}
 		else
 		{
-			new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Cell"), true, Translatrix.getTranslationString("CursorNotInCell"));
+			new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("Cell"), true, Translatrix.getTranslationString("CursorNotInCell"));
 		}
 	}
 
@@ -2398,7 +2398,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 		}
 		if(fieldNames != null && fieldNames.length > 0)
 		{
-			PropertiesDialog propertiesDialog = new PropertiesDialog(this.getFrame(), fieldNames, fieldTypes, fieldValues, Translatrix.getTranslationString("FormDialogTitle"), true);
+			PropertiesDialog propertiesDialog = new PropertiesDialog(this.getOwner(), fieldNames, fieldTypes, fieldValues, Translatrix.getTranslationString("FormDialogTitle"), true);
 			propertiesDialog.setVisible(true);
 			String decision = propertiesDialog.getDecisionValue();
 			if(decision.equals(Translatrix.getTranslationString("DialogCancel")))
@@ -2516,7 +2516,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 		}
 		if(searchFindTerm == null || (bIsFindReplace && searchReplaceTerm == null))
 		{
-			SearchDialog sdSearchInput = new SearchDialog(this.getFrame(), Translatrix.getTranslationString("SearchDialogTitle"), true, bIsFindReplace, bCaseSensitive, bStartAtTop);
+			SearchDialog sdSearchInput = new SearchDialog(this.getOwner(), Translatrix.getTranslationString("SearchDialogTitle"), true, bIsFindReplace, bCaseSensitive, bStartAtTop);
 			searchFindTerm    = sdSearchInput.getFindTerm();
 			searchReplaceTerm = sdSearchInput.getReplaceTerm();
 			bCaseSensitive    = sdSearchInput.getCaseSensitive();
@@ -2539,7 +2539,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 				}
 				else
 				{
-					new SimpleInfoDialog(this.getFrame(), "", true, Translatrix.getTranslationString("ErrorNoOccurencesFound") + ":\n" + searchFindTerm, SimpleInfoDialog.WARNING);
+					new SimpleInfoDialog(this.getOwner(), "", true, Translatrix.getTranslationString("ErrorNoOccurencesFound") + ":\n" + searchFindTerm, SimpleInfoDialog.WARNING);
 				}
 			}
 			else
@@ -2547,7 +2547,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 				int results = findText(searchFindTerm, searchReplaceTerm, bCaseSensitive, (bStartAtTop ? 0 : searchPane.getCaretPosition()));
 				if(results == -1)
 				{
-					new SimpleInfoDialog(this.getFrame(), "", true, Translatrix.getTranslationString("ErrorNoMatchFound") + ":\n" + searchFindTerm, SimpleInfoDialog.WARNING);
+					new SimpleInfoDialog(this.getOwner(), "", true, Translatrix.getTranslationString("ErrorNoMatchFound") + ":\n" + searchFindTerm, SimpleInfoDialog.WARNING);
 				}
 			}
 			lastSearchFindTerm    = new String(searchFindTerm);
@@ -2613,7 +2613,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 		catch(BadLocationException ble)
 		{
 			logException("BadLocationException in actionPerformed method", ble);
-			new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorBadLocationException"), SimpleInfoDialog.ERROR);
+			new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorBadLocationException"), SimpleInfoDialog.ERROR);
 		}
 		return searchPlace;
 	}
@@ -2642,7 +2642,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 	public void insertURLImage()
 	throws IOException, BadLocationException, RuntimeException
 	{
-		ImageURLDialog imgUrlDialog = new ImageURLDialog(this.getFrame(), Translatrix.getTranslationString("ImageURLDialogTitle"), true);
+		ImageURLDialog imgUrlDialog = new ImageURLDialog(this.getOwner(), Translatrix.getTranslationString("ImageURLDialogTitle"), true);
 		imgUrlDialog.pack();
 		imgUrlDialog.setVisible(true);
 		String whatImage = imgUrlDialog.getImageUrl();
@@ -3027,7 +3027,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 	  */
 	private void getImageFromChooser(String startDir, String[] exts, String desc)
 	{
-		ImageFileDialog imgFileDialog = new ImageFileDialog(this.getFrame(), startDir, exts, desc, "", Translatrix.getTranslationString("ImageDialogTitle"), true);
+		ImageFileDialog imgFileDialog = new ImageFileDialog(this.getOwner(), startDir, exts, desc, "", Translatrix.getTranslationString("ImageDialogTitle"), true);
 		imgFileDialog.setVisible(true);
 		String decision = imgFileDialog.getDecisionValue();
 		if(decision.equals(Translatrix.getTranslationString("DialogAccept")))
@@ -3099,20 +3099,6 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 	public JTextArea getSourcePane()
 	{
 		return jtpSource;
-	}
-
-	/** Convenience method for obtaining the application as a Frame
-	  */
-	public Frame getFrame()
-	{
-		return frameHandler;
-	}
-
-	/** Convenience method for setting the parent Frame
-	  */
-	public void setFrame(Frame parentFrame)
-	{
-		frameHandler = parentFrame;
 	}
 
 	/** Convenience method for obtaining the pre-generated menu bar
@@ -3438,7 +3424,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 	  */
 	private void updateTitle()
 	{
-		frameHandler.setTitle(appName + (currentFile == null ? "" : " - " + currentFile.getName()));
+		updateTitle(appName + (currentFile == null ? "" : " - " + currentFile.getName()));
 	}
 
 	/** Convenience method for clearing out the UndoManager
@@ -3463,14 +3449,6 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 		jtpMain.setText(jtpSource.getText());
 		try { jtpMain.setCaretPosition(caretPos); } catch(IllegalArgumentException iea) { /* caret position bad, probably follows a deletion */ }
 		this.repaint();
-	}
-
-	/** Convenience method for deallocating the app resources
-	  */
-	public void dispose()
-	{
-		frameHandler.dispose();
-		System.exit(0);
 	}
 
 	/** Convenience method for fetching icon images from jar file

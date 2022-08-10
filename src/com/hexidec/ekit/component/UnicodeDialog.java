@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /*
 Unicode block names and character value ranges taken from data sheets at http://www.unicode.org/charts/
-Copyright © 1991-2004 Unicode, Inc. All rights reserved. Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
+Copyright ï¿½ 1991-2004 Unicode, Inc. All rights reserved. Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
 */
 
 package com.hexidec.ekit.component;
@@ -34,16 +34,12 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
-import javax.swing.border.*;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -370,7 +366,7 @@ public class UnicodeDialog extends JDialog implements ActionListener
 
 	public UnicodeDialog(EkitCore parent, String title, boolean bModal, int index)
 	{
-		super(parent.getFrame(), title, bModal);
+		super(parent.getOwner(), title, bModal);
 		parentEkit = parent;
 		init(index);
 	}

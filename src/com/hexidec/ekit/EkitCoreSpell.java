@@ -25,7 +25,6 @@ import java.net.URL;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
-import com.hexidec.ekit.EkitCore;
 import com.hexidec.util.Translatrix;
 
 import com.swabunga.spell.engine.*;
@@ -84,7 +83,7 @@ public class EkitCoreSpell extends EkitCore implements SpellCheckListener
 		{
 			e.printStackTrace();
 		}
-		spellDialog = new JSpellDialog(this.getFrame(), Translatrix.getTranslationString("ToolSpellcheckDialog"), true);
+		spellDialog = new JSpellDialog(this.getOwner(), Translatrix.getTranslationString("ToolSpellcheckDialog"), true);
 	}
 
 	/** Raw/Base64 Document & Style Sheet URL Constructor (Ideal for EkitApplet)
