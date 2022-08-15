@@ -971,8 +971,7 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 	}
 
 	/**
-	 * Raw/Base64 Document & Style Sheet URL Constructor (Ideal for EkitApplet)
-	 * @param sRawDocument      [String]  A document encoded as a String to load in the editor upon startup.
+	 * Raw/Base64 Document & Style Sheet URL Constructor
 	 * @param sRawDocument      [String]  A document encoded as a String to load in the editor upon startup.
 	 * @param includeToolBar    [boolean] Specifies whether the app should include the toolbar(s).
 	 * @param showViewSource    [boolean] Specifies whether or not to show the View Source window on startup.

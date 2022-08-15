@@ -86,7 +86,7 @@ public class EkitCoreSpell extends EkitCore implements SpellCheckListener
 		spellDialog = new JSpellDialog(this.getOwner(), Translatrix.getTranslationString("ToolSpellcheckDialog"), true);
 	}
 
-	/** Raw/Base64 Document & Style Sheet URL Constructor (Ideal for EkitApplet)
+	/** Raw/Base64 Document & Style Sheet URL Constructor
 	  * @param sRawDocument      [String]  A document encoded as a String to load in the editor upon startup.
 	  * @param sRawDocument      [String]  A document encoded as a String to load in the editor upon startup.
 	  * @param includeToolBar    [boolean] Specifies whether the app should include the toolbar.
