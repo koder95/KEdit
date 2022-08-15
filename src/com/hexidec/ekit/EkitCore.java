@@ -28,6 +28,8 @@ import com.hexidec.util.Base64Codec;
 import com.hexidec.util.Translatrix;
 
 import pl.koder95.kedit.ContentPanel;
+import pl.koder95.kedit.UndoRedoActionContext;
+import pl.koder95.kedit.UndoableEditListener;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -37,8 +39,6 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 import javax.swing.text.rtf.RTFEditorKit;
-import javax.swing.undo.CannotUndoException;
-import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -130,9 +130,7 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 	private AlignAction actionAlignJustified;
 	private CustomAction actionInsertAnchor;
 
-	protected UndoManager undoMngr;
-	protected UndoAction undoAction;
-	protected RedoAction redoAction;
+	protected UndoRedoActionContext undoRedoActionContext;
 
 	/* Menus */
 	private JMenuBar jMenuBar;
@@ -441,10 +439,8 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 		jtpMain.addCaretListener(this::handleCaretPositionChange);
 
 		/* Set up the undo features */
-		undoMngr = new UndoManager();
-		undoAction = new UndoAction();
-		redoAction = new RedoAction();
-		jtpMain.getDocument().addUndoableEditListener(new CustomUndoableEditListener());
+		undoRedoActionContext = new UndoRedoActionContext();
+		jtpMain.getDocument().addUndoableEditListener(new UndoableEditListener(undoRedoActionContext));
 
 		/* Insert raw document, if exists */
 		if (sRawDocument != null && sRawDocument.length() > 0) {
@@ -560,8 +556,8 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 			JMenuItem jmiPasteX = new JMenuItem(Translatrix.getTranslationString("PasteUnformatted")); jmiPasteX.setActionCommand(CMD_CLIP_PASTE_PLAIN); jmiPasteX.addActionListener(this); jmiPasteX.setAccelerator(KeyStroke.getKeyStroke('V', CTRLKEY + KeyEvent.SHIFT_MASK, false)); if(showMenuIcons) { jmiPasteX.setIcon(getEkitIcon("PasteUnformatted")); } jMenuEdit.add(jmiPasteX);
 		}
 		jMenuEdit.addSeparator();
-		JMenuItem jmiUndo    = new JMenuItem(undoAction); jmiUndo.setAccelerator(KeyStroke.getKeyStroke('Z', CTRLKEY, false)); if(showMenuIcons) { jmiUndo.setIcon(getEkitIcon("Undo")); } jMenuEdit.add(jmiUndo);
-		JMenuItem jmiRedo    = new JMenuItem(redoAction); jmiRedo.setAccelerator(KeyStroke.getKeyStroke('Y', CTRLKEY, false)); if(showMenuIcons) { jmiRedo.setIcon(getEkitIcon("Redo")); } jMenuEdit.add(jmiRedo);
+		JMenuItem jmiUndo    = new JMenuItem(undoRedoActionContext.getUndoAction()); jmiUndo.setAccelerator(KeyStroke.getKeyStroke('Z', CTRLKEY, false)); if(showMenuIcons) { jmiUndo.setIcon(getEkitIcon("Undo")); } jMenuEdit.add(jmiUndo);
+		JMenuItem jmiRedo    = new JMenuItem(undoRedoActionContext.getRedoAction()); jmiRedo.setAccelerator(KeyStroke.getKeyStroke('Y', CTRLKEY, false)); if(showMenuIcons) { jmiRedo.setIcon(getEkitIcon("Redo")); } jMenuEdit.add(jmiRedo);
 		jMenuEdit.addSeparator();
 		JMenuItem jmiSelAll  = new JMenuItem((Action)actions.get(DefaultEditorKit.selectAllAction));       jmiSelAll.setText(Translatrix.getTranslationString("SelectAll"));        jmiSelAll.setAccelerator(KeyStroke.getKeyStroke('A', CTRLKEY, false)); jMenuEdit.add(jmiSelAll);
 		JMenuItem jmiSelPara = new JMenuItem((Action)actions.get(DefaultEditorKit.selectParagraphAction)); jmiSelPara.setText(Translatrix.getTranslationString("SelectParagraph")); jMenuEdit.add(jmiSelPara);
@@ -838,12 +834,12 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 			jbtnPasteX.setText(null);
 			jbtnPasteX.setToolTipText(Translatrix.getTranslationString("PasteUnformatted"));
 			htTools.put(KEY_TOOL_PASTEX, jbtnPasteX);
-		jbtnUndo = new JButtonNoFocus(undoAction);
+		jbtnUndo = new JButtonNoFocus(undoRedoActionContext.getUndoAction());
 			jbtnUndo.setIcon(getEkitIcon("Undo"));
 			jbtnUndo.setText(null);
 			jbtnUndo.setToolTipText(Translatrix.getTranslationString("Undo"));
 			htTools.put(KEY_TOOL_UNDO, jbtnUndo);
-		jbtnRedo = new JButtonNoFocus(redoAction);
+		jbtnRedo = new JButtonNoFocus(undoRedoActionContext.getRedoAction());
 			jbtnRedo.setIcon(getEkitIcon("Redo"));
 			jbtnRedo.setText(null);
 			jbtnRedo.setToolTipText(Translatrix.getTranslationString("Redo"));
@@ -1543,7 +1539,7 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 	 */
 	public void registerDocument(ExtendedHTMLDocument htmlDoc) {
 		jtpMain.setDocument(htmlDoc);
-		jtpMain.getDocument().addUndoableEditListener(new CustomUndoableEditListener());
+		jtpMain.getDocument().addUndoableEditListener(new UndoableEditListener(undoRedoActionContext));
 		jtpMain.getDocument().addDocumentListener(this);
 		jtpMain.setCaretPosition(0);
 		purgeUndos();
@@ -2842,10 +2838,9 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 	 * Convenience method for clearing out the UndoManager
 	 */
 	public void purgeUndos() {
-		if (undoMngr != null) {
-			undoMngr.discardAllEdits();
-			undoAction.updateUndoState();
-			redoAction.updateRedoState();
+		if (undoRedoActionContext != null && undoRedoActionContext.getManager() != null) {
+			undoRedoActionContext.getManager().discardAllEdits();
+			undoRedoActionContext.updateStates();
 		}
 	}
 
@@ -3059,68 +3054,4 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 		jcbmiEnterKeyParag.setSelected(!enterIsBreak);
 		jcbmiEnterKeyBreak.setSelected(enterIsBreak);
 	}
-
-/* Inner Classes --------------------------------------------- */
-
-	/**
-	 * Class for implementing Undo as an autonomous action
-	 */
-	class UndoAction extends AbstractAction {
-
-		public UndoAction() {
-			super(Translatrix.getTranslationString("Undo"));
-			setEnabled(false);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			try {
-				undoMngr.undo();
-			} catch(CannotUndoException ex) {
-				ex.printStackTrace();
-			}
-			updateUndoState();
-			redoAction.updateRedoState();
-		}
-
-		protected void updateUndoState() {
-			setEnabled(undoMngr.canUndo());
-		}
-	}
-
-	/**
-	 * Class for implementing Redo as an autonomous action
-	 */
-	class RedoAction extends AbstractAction {
-
-		public RedoAction() {
-			super(Translatrix.getTranslationString("Redo"));
-			setEnabled(false);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			try {
-				undoMngr.redo();
-			} catch(CannotUndoException ex) {
-				ex.printStackTrace();
-			}
-			updateRedoState();
-			undoAction.updateUndoState();
-		}
-
-		protected void updateRedoState() {
-			setEnabled(undoMngr.canRedo());
-		}
-	}
-
-	/**
-	 * Class for implementing the Undo listener to handle the Undo and Redo actions
-	 */
-	class CustomUndoableEditListener implements UndoableEditListener {
-		public void undoableEditHappened(UndoableEditEvent uee) {
-			undoMngr.addEdit(uee.getEdit());
-			undoAction.updateUndoState();
-			redoAction.updateRedoState();
-		}
-	}
-
 }
