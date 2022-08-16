@@ -26,9 +26,9 @@ import javax.swing.JComboBox;
 
 /** Class for providing a JComboBox that does not obtain focus
   */
-public class JComboBoxNoFocus extends JComboBox
+public class JComboBoxNoFocus<E> extends JComboBox<E>
 {
-	public JComboBoxNoFocus(Vector vc) { super(vc);  this.setRequestFocusEnabled(false); }
+	public JComboBoxNoFocus(Vector<E> vc) { super(vc);  this.setRequestFocusEnabled(false); }
 	public JComboBoxNoFocus()          { super();    this.setRequestFocusEnabled(false); }
 
 	public boolean isFocusable()
