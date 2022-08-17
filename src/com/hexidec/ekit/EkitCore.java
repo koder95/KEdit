@@ -60,7 +60,7 @@ import static pl.koder95.kedit.Key.*;
  * Java 8
  * Swing Library
  */
-public class EkitCore extends ContentPanel implements ActionListener, KeyListener, FocusListener, DocumentListener {
+public class EkitCore extends AdvancedContentPane implements ActionListener, KeyListener, FocusListener, DocumentListener {
 	/* Components */
 	private final JSplitPane jspltDisplay;
 	private final JTextPane jtpMain;
