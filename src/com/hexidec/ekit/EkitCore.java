@@ -27,9 +27,7 @@ import com.hexidec.ekit.thirdparty.print.DocumentRenderer;
 import com.hexidec.util.Base64Codec;
 import com.hexidec.util.Translatrix;
 
-import pl.koder95.kedit.ActionCommand;
-import pl.koder95.kedit.ContentPanel;
-import pl.koder95.kedit.UndoRedoActionContext;
+import pl.koder95.kedit.*;
 import pl.koder95.kedit.UndoableEditListener;
 
 import javax.swing.*;
@@ -103,7 +101,6 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 	protected UndoRedoActionContext undoRedoActionContext;
 
 	/* Menus */
-	private JMenuBar jMenuBar;
 	private final JMenu jMenuFont;
 	private final JMenu jMenuFormat;
 	private final JMenu jMenuInsert;
@@ -612,23 +609,22 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 		JMenuItem jmiDescCSS = new JMenuItem(Translatrix.getTranslationString("DescribeCSS")); jmiDescCSS.setActionCommand(ActionCommand.DEBUG_DESCRIBE_CSS.getValue()); jmiDescCSS.addActionListener(this); jMenuDebug.add(jmiDescCSS);
 		JMenuItem jmiTag     = new JMenuItem(Translatrix.getTranslationString("WhatTags"));    jmiTag.setActionCommand(ActionCommand.DEBUG_CURRENT_TAGS.getValue());        jmiTag.addActionListener(this);     jMenuDebug.add(jmiTag);
 
-		/* Create menubar and add menus */
-		jMenuBar = new JMenuBar();
-		jMenuBar.add(jMenuFile);
-		jMenuBar.add(jMenuEdit);
-		jMenuBar.add(jMenuView);
-		jMenuBar.add(jMenuFont);
-		jMenuBar.add(jMenuFormat);
-		jMenuBar.add(jMenuSearch);
-		jMenuBar.add(jMenuInsert);
-		jMenuBar.add(jMenuTable);
-		jMenuBar.add(jMenuForms);
+		/* Add menus to menubar */
+		getJMenuBar().add(jMenuFile);
+		getJMenuBar().add(jMenuEdit);
+		getJMenuBar().add(jMenuView);
+		getJMenuBar().add(jMenuFont);
+		getJMenuBar().add(jMenuFormat);
+		getJMenuBar().add(jMenuSearch);
+		getJMenuBar().add(jMenuInsert);
+		getJMenuBar().add(jMenuTable);
+		getJMenuBar().add(jMenuForms);
 		if (jMenuTools != null) {
-			jMenuBar.add(jMenuTools);
+			getJMenuBar().add(jMenuTools);
 		}
-		jMenuBar.add(jMenuHelp);
+		getJMenuBar().add(jMenuHelp);
 		if (debugMode) {
-			jMenuBar.add(jMenuDebug);
+			getJMenuBar().add(jMenuDebug);
 		}
 
 		/* Create toolbar tool objects */
@@ -1184,7 +1180,7 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 			} else if (command.equals(ActionCommand.SEARCH_REPLACE.getValue())) {
 				doSearch(null, null, true, lastSearchCaseSetting, lastSearchTopSetting);
 			} else if (command.equals(ActionCommand.EXIT.getValue())) {
-				this.dispose();
+				getOwner().dispatchEvent(new WindowEvent(getOwner(), WindowEvent.WINDOW_CLOSING));
 			} else if (command.equals(ActionCommand.HELP_ABOUT.getValue())) {
 				new SimpleInfoDialog(this.getOwner(), Translatrix.getTranslationString("About"), true, Translatrix.getTranslationString("AboutMessage"), SimpleInfoDialog.INFO);
 			} else if (command.equals(ActionCommand.ENTER_PARAGRAPH.getValue())) {
@@ -2380,24 +2376,10 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 	}
 
 	/**
-	 * Convenience method for obtaining the pre-generated menu bar
-	 */
-	public JMenuBar getMenuBar() {
-		return jMenuBar;
-	}
-
-	/**
 	 * Convenience method for obtaining a custom menu bar
 	 */
-	public JMenuBar getCustomMenuBar(Vector<String> vcMenus) {
-		jMenuBar = new JMenuBar();
-		for (int i = 0; i < vcMenus.size(); i++) {
-			String menuToAdd = vcMenus.elementAt(i).toLowerCase();
-			if (htMenus.containsKey(menuToAdd)) {
-				jMenuBar.add(htMenus.get(menuToAdd));
-			}
-		}
-		return jMenuBar;
+	public JMenuBar getCustomJMenuBar(Vector<String> vcMenus) {
+		return getCustomJMenuBar(htMenus, vcMenus);
 	}
 
 	/**

@@ -52,7 +52,7 @@ import pl.koder95.kedit.KEdit;
   */
 
 public class Ekit extends JFrame implements WindowListener {
-	private KEdit kEdit;
+	private final KEdit kEdit;
 
 	private File currentFile = null;
 
@@ -76,7 +76,6 @@ public class Ekit extends JFrame implements WindowListener {
 	public Ekit(String sDocument, String sStyleSheet, String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean debugMode, boolean useSpellChecker, boolean multiBar, boolean enterBreak)
 	{
 		kEdit = new KEdit(sDocument, sStyleSheet, sRawDocument, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, useSpellChecker, multiBar, enterBreak);
-		kEdit.setOwner(this);
 		kEdit.install(this);
 
 		this.addWindowListener(this);
@@ -105,8 +104,7 @@ public class Ekit extends JFrame implements WindowListener {
 
 	/** Convenience method for updating the application title bar
 	  */
-	private void updateTitle()
-	{
+	private void updateTitle() {
 		this.setTitle(kEdit.getAppName() + (currentFile == null ? "" : " - " + currentFile.getName()));
 	}
 
