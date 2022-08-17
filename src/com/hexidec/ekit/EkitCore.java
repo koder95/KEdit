@@ -862,23 +862,17 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 			jToolBarStyles = new JToolBar(JToolBar.HORIZONTAL);
 			jToolBarStyles.setFloatable(false);
 
-			initializeMultiToolbars(settings.toolbarSeq);
-
-			// fix the weird size preference of toggle buttons
-			jtbtnViewSource.setPreferredSize(jbtnAnchor.getPreferredSize());
-			jtbtnViewSource.setMinimumSize(jbtnAnchor.getMinimumSize());
-			jtbtnViewSource.setMaximumSize(jbtnAnchor.getMaximumSize());
-		} else if (settings.includeToolBar) {
+			initializeMultiToolbars(toolbarSeq);
+		} else if (includeToolBar) {
 			jToolBar = new JToolBar(JToolBar.HORIZONTAL);
 			jToolBar.setFloatable(false);
 
-			initializeSingleToolbar(settings.toolbarSeq);
-
-			// fix the weird size preference of toggle buttons
-			jtbtnViewSource.setPreferredSize(jbtnAnchor.getPreferredSize());
-			jtbtnViewSource.setMinimumSize(jbtnAnchor.getMinimumSize());
-			jtbtnViewSource.setMaximumSize(jbtnAnchor.getMaximumSize());
+			initializeSingleToolbar(toolbarSeq);
 		}
+		// fix the weird size preference of toggle buttons
+		jtbtnViewSource.setPreferredSize(jbtnAnchor.getPreferredSize());
+		jtbtnViewSource.setMinimumSize(jbtnAnchor.getMinimumSize());
+		jtbtnViewSource.setMaximumSize(jbtnAnchor.getMaximumSize());
 
 		/* Create the scroll area for the text pane */
 		JScrollPane jspViewport = new JScrollPane(jtpMain);
