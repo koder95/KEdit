@@ -4,6 +4,7 @@ import com.hexidec.ekit.EkitCore;
 import com.hexidec.ekit.EkitCoreSpell;
 
 import javax.swing.*;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.net.URL;
 
@@ -11,11 +12,15 @@ public class KEdit extends JPanel {
 
     private final EkitCore ekitCore;
 
-    public KEdit(String sDocument, String sStyleSheet, String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean debugMode, boolean useSpellChecker, boolean multiBar, boolean enterBreak) {
-        if (useSpellChecker) {
-            ekitCore = new EkitCoreSpell(false, sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, true, multiBar, (multiBar ? EkitCore.TOOLBAR_DEFAULT_MULTI : EkitCore.TOOLBAR_DEFAULT_SINGLE), enterBreak);
+    public KEdit(boolean isParentApplet, String sDocument, String sStyleSheet, String sRawDocument,
+                 StyledDocument sdocSource, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource,
+                 boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64,
+                 boolean debugMode, boolean hasSpellChecker, boolean multiBar, String toolbarSeq,
+                 boolean keepUnknownTags, boolean enterBreak) {
+        if (hasSpellChecker) {
+            ekitCore = new EkitCoreSpell(isParentApplet, sDocument, sStyleSheet, sRawDocument, sdocSource, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, true, multiBar, toolbarSeq, enterBreak);
         } else {
-            ekitCore = new EkitCore(false, sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, false, multiBar, (multiBar ? EkitCore.TOOLBAR_DEFAULT_MULTI : EkitCore.TOOLBAR_DEFAULT_SINGLE), enterBreak);
+            ekitCore = new EkitCore(isParentApplet, sDocument, sStyleSheet, sRawDocument, sdocSource, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, false, multiBar, toolbarSeq, keepUnknownTags, enterBreak);
         }
 
         /* Add the components to the app */
@@ -32,13 +37,13 @@ public class KEdit extends JPanel {
                 gbc.gridx = 1;
 
                 gbc.gridy = 1;
-                add(ekitCore.getToolBarMain(includeToolBar), gbc);
+                add(ekitCore.getToolBarMain(true), gbc);
 
                 gbc.gridy = 2;
-                add(ekitCore.getToolBarFormat(includeToolBar), gbc);
+                add(ekitCore.getToolBarFormat(true), gbc);
 
                 gbc.gridy = 3;
-                add(ekitCore.getToolBarStyles(includeToolBar), gbc);
+                add(ekitCore.getToolBarStyles(true), gbc);
 
                 gbc.anchor = GridBagConstraints.SOUTH;
                 gbc.fill = GridBagConstraints.BOTH;
@@ -48,12 +53,16 @@ public class KEdit extends JPanel {
             } else {
                 setLayout(new BorderLayout());
                 add(ekitCore, BorderLayout.CENTER);
-                add(ekitCore.getToolBar(includeToolBar), BorderLayout.NORTH);
+                add(ekitCore.getToolBar(true), BorderLayout.NORTH);
             }
         } else {
             setLayout(new BorderLayout());
             add(ekitCore, BorderLayout.CENTER);
         }
+    }
+
+    public KEdit(String sDocument, String sStyleSheet, String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean debugMode, boolean useSpellChecker, boolean multiBar, boolean enterBreak) {
+        this(false, sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, useSpellChecker, multiBar, (multiBar ? EkitCore.TOOLBAR_DEFAULT_MULTI : EkitCore.TOOLBAR_DEFAULT_SINGLE), false, enterBreak);
     }
 
     public void setOwner(Frame owner) {
