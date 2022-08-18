@@ -34,6 +34,8 @@ import javax.swing.JLabel;
 
 import com.hexidec.ekit.EkitCore;
 
+import static pl.koder95.kedit.Key.*;
+
 /** EkitApplet
   * Applet for editing and saving HTML in a Java browser component
   *
@@ -106,16 +108,16 @@ public class EkitApplet extends JApplet
 
 		/* Add menus, based on whether or not they are requested (all are shown by default) */
 		Vector vcMenus = new Vector();
-		if(this.getParameter("MENU_EDIT")   != null) { if(this.getParameter("MENU_EDIT").equalsIgnoreCase("true"))   { vcMenus.add(EkitCore.KEY_MENU_EDIT); } }   else { vcMenus.add(EkitCore.KEY_MENU_EDIT); }
-		if(this.getParameter("MENU_VIEW")   != null) { if(this.getParameter("MENU_VIEW").equalsIgnoreCase("true"))   { vcMenus.add(EkitCore.KEY_MENU_VIEW); } }   else { vcMenus.add(EkitCore.KEY_MENU_VIEW); }
-		if(this.getParameter("MENU_FONT")   != null) { if(this.getParameter("MENU_FONT").equalsIgnoreCase("true"))   { vcMenus.add(EkitCore.KEY_MENU_FONT); } }   else { vcMenus.add(EkitCore.KEY_MENU_FONT); }
-		if(this.getParameter("MENU_FORMAT") != null) { if(this.getParameter("MENU_FORMAT").equalsIgnoreCase("true")) { vcMenus.add(EkitCore.KEY_MENU_FORMAT); } } else { vcMenus.add(EkitCore.KEY_MENU_FORMAT); }
-		if(this.getParameter("MENU_INSERT") != null) { if(this.getParameter("MENU_INSERT").equalsIgnoreCase("true")) { vcMenus.add(EkitCore.KEY_MENU_INSERT); } } else { vcMenus.add(EkitCore.KEY_MENU_INSERT); }
-		if(this.getParameter("MENU_TABLE")  != null) { if(this.getParameter("MENU_TABLE").equalsIgnoreCase("true"))  { vcMenus.add(EkitCore.KEY_MENU_TABLE); } }  else { vcMenus.add(EkitCore.KEY_MENU_TABLE); }
-		if(this.getParameter("MENU_FORMS")  != null) { if(this.getParameter("MENU_FORMS").equalsIgnoreCase("true"))  { vcMenus.add(EkitCore.KEY_MENU_FORMS); } }  else { vcMenus.add(EkitCore.KEY_MENU_FORMS); }
-		if(this.getParameter("MENU_SEARCH") != null) { if(this.getParameter("MENU_SEARCH").equalsIgnoreCase("true")) { vcMenus.add(EkitCore.KEY_MENU_SEARCH); } } else { vcMenus.add(EkitCore.KEY_MENU_SEARCH); }
-		if(this.getParameter("MENU_TOOLS")  != null) { if(this.getParameter("MENU_TOOLS").equalsIgnoreCase("true"))  { vcMenus.add(EkitCore.KEY_MENU_TOOLS); } }  else { vcMenus.add(EkitCore.KEY_MENU_TOOLS); }
-		if(this.getParameter("MENU_HELP")   != null) { if(this.getParameter("MENU_HELP").equalsIgnoreCase("true"))   { vcMenus.add(EkitCore.KEY_MENU_HELP); } }   else { vcMenus.add(EkitCore.KEY_MENU_HELP); }
+		if(this.getParameter("MENU_EDIT")   != null) { if(this.getParameter("MENU_EDIT").equalsIgnoreCase("true"))   { vcMenus.add(MENU_EDIT.getValue()); } }   else { vcMenus.add(MENU_EDIT.getValue()); }
+		if(this.getParameter("MENU_VIEW")   != null) { if(this.getParameter("MENU_VIEW").equalsIgnoreCase("true"))   { vcMenus.add(MENU_VIEW.getValue()); } }   else { vcMenus.add(MENU_VIEW.getValue()); }
+		if(this.getParameter("MENU_FONT")   != null) { if(this.getParameter("MENU_FONT").equalsIgnoreCase("true"))   { vcMenus.add(MENU_FONT.getValue()); } }   else { vcMenus.add(MENU_FONT.getValue()); }
+		if(this.getParameter("MENU_FORMAT") != null) { if(this.getParameter("MENU_FORMAT").equalsIgnoreCase("true")) { vcMenus.add(MENU_FORMAT.getValue()); } } else { vcMenus.add(MENU_FORMAT.getValue()); }
+		if(this.getParameter("MENU_INSERT") != null) { if(this.getParameter("MENU_INSERT").equalsIgnoreCase("true")) { vcMenus.add(MENU_INSERT.getValue()); } } else { vcMenus.add(MENU_INSERT.getValue()); }
+		if(this.getParameter("MENU_TABLE")  != null) { if(this.getParameter("MENU_TABLE").equalsIgnoreCase("true"))  { vcMenus.add(MENU_TABLE.getValue()); } }  else { vcMenus.add(MENU_TABLE.getValue()); }
+		if(this.getParameter("MENU_FORMS")  != null) { if(this.getParameter("MENU_FORMS").equalsIgnoreCase("true"))  { vcMenus.add(MENU_FORMS.getValue()); } }  else { vcMenus.add(MENU_FORMS.getValue()); }
+		if(this.getParameter("MENU_SEARCH") != null) { if(this.getParameter("MENU_SEARCH").equalsIgnoreCase("true")) { vcMenus.add(MENU_SEARCH.getValue()); } } else { vcMenus.add(MENU_SEARCH.getValue()); }
+		if(this.getParameter("MENU_TOOLS")  != null) { if(this.getParameter("MENU_TOOLS").equalsIgnoreCase("true"))  { vcMenus.add(MENU_TOOLS.getValue()); } }  else { vcMenus.add(MENU_TOOLS.getValue()); }
+		if(this.getParameter("MENU_HELP")   != null) { if(this.getParameter("MENU_HELP").equalsIgnoreCase("true"))   { vcMenus.add(MENU_HELP.getValue()); } }   else { vcMenus.add(MENU_HELP.getValue()); }
 		this.setJMenuBar(ekitCore.getCustomMenuBar(vcMenus));
 
 		/* Add the components to the app */
