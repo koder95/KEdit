@@ -862,12 +862,12 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 			jToolBarStyles = new JToolBar(JToolBar.HORIZONTAL);
 			jToolBarStyles.setFloatable(false);
 
-			initializeMultiToolbars(toolbarSeq);
+			initializeMultiToolbars(settings.toolbarSeq);
 		} else if (settings.includeToolBar) {
 			jToolBar = new JToolBar(JToolBar.HORIZONTAL);
 			jToolBar.setFloatable(false);
 
-			initializeSingleToolbar(toolbarSeq);
+			initializeSingleToolbar(settings.toolbarSeq);
 		}
 		// fix the weird size preference of toggle buttons
 		jtbtnViewSource.setPreferredSize(jbtnAnchor.getPreferredSize());
