@@ -863,7 +863,7 @@ public class EkitCore extends ContentPanel implements ActionListener, KeyListene
 			jToolBarStyles.setFloatable(false);
 
 			initializeMultiToolbars(toolbarSeq);
-		} else if (includeToolBar) {
+		} else if (settings.includeToolBar) {
 			jToolBar = new JToolBar(JToolBar.HORIZONTAL);
 			jToolBar.setFloatable(false);
 
